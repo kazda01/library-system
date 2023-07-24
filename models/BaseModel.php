@@ -35,7 +35,7 @@ class BaseModel extends \yii\db\ActiveRecord
                 'class' => BlameableBehavior::class,
                 'createdByAttribute' => 'created_by',
                 'updatedByAttribute' => 'updated_by',
-
+                'defaultValue' => 1,
             ],
             [
                 'class' => TimestampBehavior::class,
