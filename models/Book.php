@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int|null $fk_author
- * @property string $name
+ * @property string $title
  * @property string|null $description
  * @property string $language
  * @property string $isbn
@@ -41,10 +41,10 @@ class Book extends BaseModel
     {
         return [
             [['fk_author', 'pages', 'year_of_publication', 'created_by', 'updated_by'], 'integer'],
-            [['name', 'language', 'isbn', 'created_by', 'updated_by'], 'required'],
+            [['title', 'language', 'isbn', 'created_by', 'updated_by'], 'required'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 191],
+            [['title'], 'string', 'max' => 191],
             [['language'], 'string', 'max' => 32],
             [['isbn'], 'string', 'max' => 13],
             [['fk_author'], 'exist', 'skipOnError' => true, 'targetClass' => Author::class, 'targetAttribute' => ['fk_author' => 'id']],
@@ -59,7 +59,7 @@ class Book extends BaseModel
         return [
             'id' => Yii::t('app', 'ID'),
             'fk_author' => Yii::t('app', 'Author'),
-            'name' => Yii::t('app', 'Name'),
+            'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
             'language' => Yii::t('app', 'Language'),
             'isbn' => Yii::t('app', 'ISBN'),
