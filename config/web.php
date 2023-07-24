@@ -9,17 +9,32 @@ $config = [
     'id' => 'basic',
     'name' => 'Library system',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'search'],
     'timeZone' => 'Europe/Prague',
     'modules' => [
         'gridview' => [
             'class' => '\kartik\grid\Module',
         ],
-        'user-search' => [
+        'search' => [
             'class' => '\kazda01\search\SearchModule',
             'searchConfig' => [
-                'UserSearch' => [
-                    'columns' => ['username'],
+                'BookSearch' => [
+                    'columns' => ['title', 'isbn'],
+                    'matchTitle' => Yii::t('app', 'Books'),
+                    'matchText' => function ($model) {
+                        return "{$model->title} - {$model->author->name} ({$model->year_of_publication})";
+                    },
+                ],
+                'AuthorSearch' => [
+                    'columns' => ['name'],
+                    'matchTitle' => Yii::t('app', 'Authors'),
+                    'matchText' => function ($model) {
+                        return "{$model->name} ({$model->getBooks()->count()})";
+                    },
+                    'route' => '/book/index',
+                    'route_params' => function ($model) {
+                        return ['BookSearch[authorName]' => $model->name];
+                    },
                 ],
             ]
         ],
@@ -84,9 +99,8 @@ $config = [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
-        ],'assetManager' => [
+            'rules' => [],
+        ], 'assetManager' => [
             'appendTimestamp' => true,
         ],
         'authManager' => [

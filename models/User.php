@@ -259,11 +259,6 @@ class User extends ActiveRecord implements IdentityInterface
         $this->password_reset_token = null;
     }
 
-    public static function find()
-    {
-        return new query\UserQuery(get_called_class());
-    }
-
     public function printStatus()
     {
         switch ($this->status) {
