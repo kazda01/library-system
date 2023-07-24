@@ -24,7 +24,7 @@ use Yii;
  * @property Author $fkAuthor
  * @property User $updatedBy
  */
-class Book extends \yii\db\ActiveRecord
+class Book extends BaseModel
 {
     /**
      * {@inheritdoc}

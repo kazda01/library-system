@@ -18,7 +18,7 @@ use Yii;
  * @property User $createdBy
  * @property User $updatedBy
  */
-class Author extends \yii\db\ActiveRecord
+class Author extends BaseModel
 {
     /**
      * {@inheritdoc}
