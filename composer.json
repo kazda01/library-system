@@ -24,7 +24,8 @@
         "kazda01/yii2-search": "@dev",
         "yiisoft/yii2-swiftmailer": "^2.1",
         "kartik-v/yii2-icons": "@dev",
-        "rmrevin/yii2-fontawesome": "~3.0"
+        "rmrevin/yii2-fontawesome": "~3.0",
+        "kartik-v/yii2-widget-select2": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

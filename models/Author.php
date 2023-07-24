@@ -34,7 +34,7 @@ class Author extends BaseModel
     public function rules()
     {
         return [
-            [['name', 'created_by', 'updated_by'], 'required'],
+            [['name'], 'required'],
             [['created_by', 'updated_by'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 191],
@@ -48,7 +48,7 @@ class Author extends BaseModel
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'Author name'),
             'created_by' => Yii::t('app', 'Created by'),
             'updated_by' => Yii::t('app', 'Updated by'),
             'created_at' => Yii::t('app', 'Created at'),

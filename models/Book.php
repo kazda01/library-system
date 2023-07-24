@@ -41,7 +41,7 @@ class Book extends BaseModel
     {
         return [
             [['fk_author', 'pages', 'year_of_publication', 'created_by', 'updated_by'], 'integer'],
-            [['title', 'language', 'isbn', 'created_by', 'updated_by'], 'required'],
+            [['title', 'language', 'isbn'], 'required'],
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 191],
