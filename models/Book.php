@@ -62,7 +62,7 @@ class Book extends BaseModel
             'name' => Yii::t('app', 'Name'),
             'description' => Yii::t('app', 'Description'),
             'language' => Yii::t('app', 'Language'),
-            'isbn' => Yii::t('app', 'Isbn'),
+            'isbn' => Yii::t('app', 'ISBN'),
             'pages' => Yii::t('app', 'Pages'),
             'year_of_publication' => Yii::t('app', 'Year of publication'),
             'created_by' => Yii::t('app', 'Created by'),
