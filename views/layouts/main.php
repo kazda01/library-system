@@ -70,7 +70,7 @@ AppAsset::register($this);
         ?>
     </header>
 
-    <main id="main" class="flex-shrink-0 mt-5" role="main">
+    <main id="main" class="flex-shrink-0 my-5" role="main">
         <div class="container">
             <?= Alert::widget() ?>
             <?= $content ?>
