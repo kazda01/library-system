@@ -48,6 +48,7 @@ AppAsset::register($this);
 
         if (!Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => Yii::t('app', 'Books'), 'url' => ['/book']];
+            $menuItems[] = ['label' => Yii::t('app', 'Authors'), 'url' => ['/author']];
             $menuItems[] =
                 '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'])
