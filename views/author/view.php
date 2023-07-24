@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
 
 /** @var yii\web\View $this */
@@ -32,16 +33,43 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             [
-                'attribute' =>'createdBy.username',
+                'attribute' => 'createdBy.username',
                 'label' => Yii::t('app', 'Created by')
             ],
             [
-                'attribute' =>'updatedBy.username',
+                'attribute' => 'updatedBy.username',
                 'label' => Yii::t('app', 'Updated by')
             ],
             'created_at:datetime',
             'updated_at:datetime',
         ],
     ]) ?>
+
+    <h3><?= Yii::t('app', 'Books') ?></h3>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th><?= Yii::t('app', 'Title') ?></th>
+                <th><?= Yii::t('app', 'Year of publication') ?></th>
+                <th><?= Yii::t('app', 'ISBN') ?></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ($model->getBooks()->count() == 0) : ?>
+                <tr>
+                    <td colspan="3"><?= Yii::t('app', 'Author has no books.') ?></td>
+                </tr>
+            <?php else : ?>
+                <?php foreach ($model->books as $book) : ?>
+                    <tr>
+                        <td><a class="link-dark link-underline-opacity-0 link-underline-opacity-100-hover" href="<?= Url::to(['/book/view', 'id' => $book->id]) ?>"><?= $book->title ?></a></td>
+                        <td><?= $book->year_of_publication ?></td>
+                        <td><?= $book->isbn ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </tbody>
+    </table>
 
 </div>
