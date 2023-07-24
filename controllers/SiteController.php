@@ -7,11 +7,10 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
-use app\models\LoginForm;
-use app\models\PasswordResetRequestForm;
-use app\models\ResetPasswordForm;
-use app\models\SignupForm;
-use app\models\VerifyEmailForm;
+use app\models\form\LoginForm;
+use app\models\form\PasswordResetRequestForm;
+use app\models\form\ResetPasswordForm;
+use app\models\form\VerifyEmailForm;
 use InvalidArgumentException;
 use yii\web\BadRequestHttpException;
 
