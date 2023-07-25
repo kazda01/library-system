@@ -1,7 +1,13 @@
 <?php
 
+use app\models\Borrowing;
+use kartik\grid\ActionColumn;
+use kartik\grid\GridView;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\helpers\Url;
 use yii\widgets\DetailView;
+use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var app\models\Book $model */
@@ -38,16 +44,58 @@ $this->params['breadcrumbs'][] = $this->title;
             'pages',
             'year_of_publication',
             [
-                'attribute' =>'createdBy.username',
+                'attribute' => 'createdBy.username',
                 'label' => Yii::t('app', 'Created by')
             ],
             [
-                'attribute' =>'updatedBy.username',
+                'attribute' => 'updatedBy.username',
                 'label' => Yii::t('app', 'Updated by')
             ],
             'created_at:datetime',
             'updated_at:datetime',
         ],
     ]) ?>
+
+    <h3><?= Yii::t('app', 'Borrowings') ?></h3>
+
+    <?php Pjax::begin(); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => new ActiveDataProvider([
+            'query' => $model->getBorrowings(),
+            'sort' => [
+                'defaultOrder' => [
+                    'borrow_date' => SORT_DESC,
+                ]
+            ],
+        ]),
+        'columns' => [
+            [
+                'attribute' => 'customerNameCard',
+                'label' => Yii::t('app', 'Customer') . ' (' . Yii::t('app', 'Card ID') . ')',
+                'value' => function ($model) {
+                    return "{$model->customer->name} {$model->customer->surname} ({$model->customer->card_id})";
+                }
+            ],
+            'borrow_date',
+            'return_date',
+            [
+                'label' => Yii::t('app', 'Active borrow'),
+                'class' => 'kartik\grid\BooleanColumn',
+                'value' => function ($model) {
+                    return $model->return_date === null || strtotime($model->return_date) <= strtotime(date('Y-m-d'));
+                }
+                // you may configure additional properties here
+            ],
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Borrowing $model, $key, $index, $column) {
+                    return Url::toRoute(['/borrowing/view', 'id' => $model->id]);
+                }
+            ],
+        ],
+    ]); ?>
+
+    <?php Pjax::end(); ?>
 
 </div>
