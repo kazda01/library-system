@@ -8,7 +8,6 @@ use app\widgets\Alert;
 use yii\bootstrap5\Html;
 use yii\bootstrap5\Nav;
 use yii\bootstrap5\NavBar;
-use yii\helpers\Url;
 
 AppAsset::register($this);
 
@@ -49,6 +48,7 @@ AppAsset::register($this);
         if (!Yii::$app->user->isGuest) {
             $menuItems[] = ['label' => Yii::t('app', 'Books'), 'url' => ['/book']];
             $menuItems[] = ['label' => Yii::t('app', 'Authors'), 'url' => ['/author']];
+            $menuItems[] = ['label' => Yii::t('app', 'Customers'), 'url' => ['/customer']];
             $menuItems[] =
                 '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'])

@@ -20,7 +20,7 @@ use Yii;
  * @property User $createdBy
  * @property User $updatedBy
  */
-class Customer extends \yii\db\ActiveRecord
+class Customer extends BaseModel
 {
     /**
      * {@inheritdoc}
