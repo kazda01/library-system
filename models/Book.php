@@ -122,8 +122,8 @@ class Book extends BaseModel
      */
     public function isAvailable($borrow_date = null, $return_date = null)
     {
-        $borrow_date = $borrow_date ?? date('Y-m-d');
-        $return_date = $return_date ?? date('Y-m-d');
+        if($borrow_date === null || $borrow_date === '') $borrow_date = date('Y-m-d');
+        if($return_date === null || $return_date === '') $return_date = date('Y-m-d');
 
         $date_intersection = $this->getBorrowings()
             ->andWhere([
