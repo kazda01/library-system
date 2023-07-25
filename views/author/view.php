@@ -1,8 +1,13 @@
 <?php
 
+use app\models\Book;
+use kartik\grid\ActionColumn;
+use kartik\grid\GridView;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
+use yii\widgets\Pjax;
 
 /** @var yii\web\View $this */
 /** @var app\models\Author $model */
@@ -47,29 +52,32 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h3><?= Yii::t('app', 'Books') ?></h3>
 
-    <table class="table table-striped table-hover">
-        <thead>
-            <tr>
-                <th><?= Yii::t('app', 'Title') ?></th>
-                <th><?= Yii::t('app', 'Year of publication') ?></th>
-                <th><?= Yii::t('app', 'ISBN') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if ($model->getBooks()->count() == 0) : ?>
-                <tr>
-                    <td colspan="3"><?= Yii::t('app', 'Author has no books.') ?></td>
-                </tr>
-            <?php else : ?>
-                <?php foreach ($model->books as $book) : ?>
-                    <tr>
-                        <td><a class="link-dark link-underline-opacity-0 link-underline-opacity-100-hover" href="<?= Url::to(['/book/view', 'id' => $book->id]) ?>"><?= $book->title ?></a></td>
-                        <td><?= $book->year_of_publication ?></td>
-                        <td><?= $book->isbn ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
-    </table>
+    <?php Pjax::begin(); ?>
+
+    <?= GridView::widget([
+        'dataProvider' => new ActiveDataProvider([
+            'query' => $model->getBooks(),
+        ]),
+        'columns' => [
+            'title',
+            'year_of_publication',
+            'isbn',
+            [
+                'label' => Yii::t('app', 'Available'),
+                'class' => 'kartik\grid\BooleanColumn',
+                'value' => function ($model) {
+                    return $model->isAvailable();
+                }
+            ],
+            [
+                'class' => ActionColumn::className(),
+                'urlCreator' => function ($action, Book $model, $key, $index, $column) {
+                    return Url::toRoute(['/book/view', 'id' => $model->id]);
+                }
+            ],
+        ],
+    ]); ?>
+
+    <?php Pjax::end(); ?>
 
 </div>
