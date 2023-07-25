@@ -22,7 +22,7 @@ use Yii;
  * @property Customer $fkCustomer
  * @property User $updatedBy
  */
-class Borrowing extends \yii\db\ActiveRecord
+class Borrowing extends BaseModel
 {
     /**
      * {@inheritdoc}

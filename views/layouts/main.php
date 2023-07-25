@@ -49,6 +49,7 @@ AppAsset::register($this);
             $menuItems[] = ['label' => Yii::t('app', 'Books'), 'url' => ['/book']];
             $menuItems[] = ['label' => Yii::t('app', 'Authors'), 'url' => ['/author']];
             $menuItems[] = ['label' => Yii::t('app', 'Customers'), 'url' => ['/customer']];
+            $menuItems[] = ['label' => Yii::t('app', 'Borrowings'), 'url' => ['/borrowing']];
             $menuItems[] =
                 '<li class="nav-item">'
                 . Html::beginForm(['/site/logout'])
