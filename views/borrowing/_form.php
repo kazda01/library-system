@@ -31,10 +31,22 @@ $this->registerJsFile(
     ?>
     <?= $form->field($model, 'fk_customer')->widget(Select2::class, [
         'data' => $customers,
+        'options' => [
+            'prompt' => ''
+        ],
+        'pluginOptions' => [
+            'allowClear' => true,
+        ],
     ]) ?>
 
     <?= $form->field($model, 'fk_book')->widget(Select2::class, [
         'data' => ArrayHelper::map(Book::find()->all(), 'id', 'title'),
+        'options' => [
+            'prompt' => ''
+        ],
+        'pluginOptions' => [
+            'allowClear' => true,
+        ],
     ]) ?>
 
     <?= $form->field($model, 'borrow_date')->widget(DatePicker::class, [

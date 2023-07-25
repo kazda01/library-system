@@ -76,9 +76,13 @@ class BorrowingController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
      */
-    public function actionCreate()
+    public function actionCreate($fk_customer = null, $fk_book = null)
     {
         $model = new Borrowing();
+        if($fk_customer !== null) $model->fk_customer = $fk_customer;
+        if($fk_book !== null) $model->fk_book = $fk_book;
+
+        $model->borrow_date = date('Y-m-d');
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post()) && $model->save()) {
