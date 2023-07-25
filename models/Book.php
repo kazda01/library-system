@@ -111,4 +111,23 @@ class Book extends BaseModel
     {
         return $this->hasMany(Borrowing::class, ['fk_book' => 'id']);
     }
+
+    /**
+     * Returns boolean if Book is available for borrow in specified range.
+     * Accepts two parameters for date range, if null - date('Y-m-d') is used.
+     * 
+     * @param string|null $borrow_date
+     * @param string|null $return_date
+     * @return boolean
+     */
+    public function isAvailable($borrow_date = null, $return_date = null)
+    {
+        $borrow_date = $borrow_date ?? date('Y-m-d');
+        $return_date = $return_date ?? date('Y-m-d');
+
+        $date_intersection = $this->getBorrowings()
+            ->andWhere(['<=', 'borrow_date', $borrow_date])
+            ->andWhere(['>=', 'return_date', $return_date])->count();
+        return $date_intersection == 0;
+    }
 }
