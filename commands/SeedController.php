@@ -4,6 +4,8 @@ namespace app\commands;
 
 use app\models\Author;
 use app\models\Book;
+use app\models\Borrowing;
+use app\models\Customer;
 use app\models\User;
 use Yii;
 use yii\console\Controller;
@@ -82,6 +84,25 @@ class SeedController extends Controller
             'updated_by' => 1,
         ]);
         $success = $success && $book->save();
+        
+        $customer = new Customer([
+            'card_id' => '123456789',
+            'name' => 'Antonín',
+            'surname' => 'Kazda',
+            'created_by' => 1,
+            'updated_by' => 1,
+        ]);
+        $success = $success && $customer->save();
+        
+        $borrowing = new Borrowing([
+            'fk_customer' => $customer->id,
+            'fk_book' => $book->id,
+            'borrow_date' => '2023-07-16',
+            'return_date' => '2023-07-25',
+            'created_by' => 1,
+            'updated_by' => 1,
+        ]);
+        $success = $success && $borrowing->save();
 
         if ($success) {
             echo ("Seeded successfully. Transaction commited.\n");
