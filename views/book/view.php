@@ -77,8 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     return "{$model->customer->name} {$model->customer->surname} ({$model->customer->card_id})";
                 }
             ],
-            'borrow_date',
-            'return_date',
+            'borrow_date:date',
+            'return_date:date',
             [
                 'label' => Yii::t('app', 'Active borrow'),
                 'class' => 'kartik\grid\BooleanColumn',
