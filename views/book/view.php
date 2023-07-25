@@ -83,7 +83,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app', 'Active borrow'),
                 'class' => 'kartik\grid\BooleanColumn',
                 'value' => function ($model) {
-                    return $model->return_date === null || strtotime($model->return_date) <= strtotime(date('Y-m-d'));
+                    return $model->isActive();
                 }
                 // you may configure additional properties here
             ],

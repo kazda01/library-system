@@ -103,4 +103,15 @@ class Borrowing extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
+
+    /**
+     * Returns boolean if Borrowing is active.
+     * 
+     * @return boolean
+     */
+    public function isActive()
+    {
+        if (strtotime(date('Y-m-d')) < strtotime($this->borrow_date)) return false;
+        return strtotime(date('Y-m-d')) <= strtotime($this->return_date) || $this->return_date === null;
+    }
 }
