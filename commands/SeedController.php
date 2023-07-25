@@ -97,8 +97,18 @@ class SeedController extends Controller
         $borrowing = new Borrowing([
             'fk_customer' => $customer->id,
             'fk_book' => $book->id,
-            'borrow_date' => '2023-07-16',
-            'return_date' => '2023-07-25',
+            'borrow_date' => '2023-09-01',
+            'return_date' => '2023-09-08',
+            'created_by' => 1,
+            'updated_by' => 1,
+        ]);
+        $success = $success && $borrowing->save();
+        
+        $borrowing = new Borrowing([
+            'fk_customer' => $customer->id,
+            'fk_book' => $book->id,
+            'borrow_date' => '2023-09-19',
+            'return_date' => '2023-09-26',
             'created_by' => 1,
             'updated_by' => 1,
         ]);
