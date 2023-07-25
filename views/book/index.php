@@ -45,6 +45,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
+                'attribute' => 'available',
+                'label' => Yii::t('app', 'Available'),
+                'class' => 'kartik\grid\BooleanColumn',
+                'value' => function ($model) {
+                    return $model->isAvailable();
+                }
+            ],
+            [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Book $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);

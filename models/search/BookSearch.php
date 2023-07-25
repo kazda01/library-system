@@ -5,6 +5,7 @@ namespace app\models\search;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Book;
+use app\models\Borrowing;
 
 /**
  * BookSearch represents the model behind the search form of `app\models\Book`.
@@ -42,8 +43,14 @@ class BookSearch extends Book
      */
     public function search($params)
     {
-        $query = Book::find();
-
+        $query = Book::find()->joinWith('author')->joinWith('createdBy')->select([
+            'book.*',
+            'available' => Borrowing::find()->select(['COUNT(*)'])
+                ->where('book.id = borrowing.fk_book')
+                ->andWhere(['<=', 'borrow_date', date('Y-m-d')])
+                ->andWhere(['or', ['IS', 'return_date', null], ['>=', 'return_date', date('Y-m-d')]])
+        ]);
+        
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -58,9 +65,6 @@ class BookSearch extends Book
             return $dataProvider;
         }
 
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query->joinWith('author')->joinWith('createdBy'),
-        ]);
         $dataProvider->sort->attributes['authorName'] = [
             'asc' => ['author.name' => SORT_ASC],
             'desc' => ['author.name' => SORT_DESC],
@@ -68,6 +72,10 @@ class BookSearch extends Book
         $dataProvider->sort->attributes['createdByUsername'] = [
             'asc' => ['user.username' => SORT_ASC],
             'desc' => ['user.username' => SORT_DESC],
+        ];
+        $dataProvider->sort->attributes['available'] = [
+            'asc' => ['available' => SORT_ASC],
+            'desc' => ['available' => SORT_DESC],
         ];
 
         // grid filtering conditions
