@@ -101,4 +101,14 @@ class Book extends BaseModel
     {
         return $this->hasOne(User::class, ['id' => 'updated_by']);
     }
+
+    /**
+     * Gets query for [[Borrowings]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBorrowings()
+    {
+        return $this->hasMany(Borrowing::class, ['fk_book' => 'id']);
+    }
 }
