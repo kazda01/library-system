@@ -5,6 +5,7 @@ namespace app\models\search;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Author;
+use app\models\Book;
 
 /**
  * AuthorSearch represents the model behind the search form of `app\models\Author`.
@@ -42,8 +43,10 @@ class AuthorSearch extends Author
      */
     public function search($params)
     {
-        $query = Author::find()->select('author.*, COUNT(*) as bookCount')
-            ->joinWith('createdBy')->joinWith('books')->groupBy('author.name');
+        $subquery = Author::find()->joinWith('books')->select('author.id as author_id, COUNT(book.id) as count')->groupBy('author.id');
+        $query = Author::find()->select('author.*')
+            ->joinWith('createdBy')
+            ->innerJoin(['books' => $subquery], 'author.id = books.author_id');
 
         // add conditions that should always apply here
 
@@ -58,15 +61,15 @@ class AuthorSearch extends Author
             // $query->where('0=1');
             return $dataProvider;
         }
-        
+
         $dataProvider->sort->attributes['createdByUsername'] = [
             'asc' => ['user.username' => SORT_ASC],
             'desc' => ['user.username' => SORT_DESC],
         ];
-        
+
         $dataProvider->sort->attributes['bookCount'] = [
-            'asc' => ['bookCount' => SORT_ASC],
-            'desc' => ['bookCount' => SORT_DESC],
+            'asc' => ['books.count' => SORT_ASC],
+            'desc' => ['books.count' => SORT_DESC],
         ];
 
         // grid filtering conditions
@@ -79,8 +82,8 @@ class AuthorSearch extends Author
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'user.username', $this->createdByUsername]);
-        $query->andFilterHaving(['bookCount' => $this->bookCount]);
+            ->andFilterWhere(['like', 'user.username', $this->createdByUsername])
+            ->andFilterWhere(['books.count' => $this->bookCount]);
 
         return $dataProvider;
     }
