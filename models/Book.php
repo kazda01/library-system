@@ -126,9 +126,21 @@ class Book extends BaseModel
         $return_date = $return_date ?? date('Y-m-d');
 
         $date_intersection = $this->getBorrowings()
-            ->andWhere(['<=', 'borrow_date', $borrow_date])
-            ->andWhere(['or', ['IS', 'return_date', null], ['>=', 'return_date', $return_date]])
-            ->count();
-        return $date_intersection == 0;
+            ->andWhere([
+                'or',
+                [
+                    'and', ['IS', 'return_date', null],         ['<=', 'borrow_date', $return_date]
+                ],
+                [
+                    'and', ['>=', 'borrow_date', $borrow_date], ['<=', 'borrow_date', $return_date]
+                ],
+                [
+                    'and', ['>=', 'return_date', $borrow_date], ['<=', 'return_date', $return_date],
+                ],
+                [
+                    'and', ['<=', 'borrow_date', $borrow_date], ['>=', 'return_date', $return_date],
+                ],
+            ]);
+        return $date_intersection->count() == 0;
     }
 }

@@ -43,7 +43,24 @@ class Borrowing extends BaseModel
             [['borrow_date', 'return_date', 'created_at', 'updated_at'], 'safe'],
             [['fk_book'], 'exist', 'skipOnError' => true, 'targetClass' => Book::class, 'targetAttribute' => ['fk_book' => 'id']],
             [['fk_customer'], 'exist', 'skipOnError' => true, 'targetClass' => Customer::class, 'targetAttribute' => ['fk_customer' => 'id']],
+            [['borrow_date', 'return_date'], 'validateBorrowRange'],
+            [['borrow_date', 'return_date'], 'date', 'format' => 'yyyy-MM-dd'],
         ];
+    }
+
+    public function validateBorrowRange($attribute, $params)
+    {
+        if ($this->return_date !== '' && strtotime($this->return_date) < strtotime($this->borrow_date)) {
+            $this->addError($attribute, Yii::t('app', 'The borrowing date must be before the return date.'));
+        }
+
+        if (!$this->book->isAvailable($this->borrow_date, $this->return_date)) {
+            $this->addError($attribute, Yii::t('app', 'The borrowing date of a book overlaps with another borrowing.'));
+        }
+
+        if (strtotime(date('Y-m-d')) > strtotime($this->borrow_date)) {
+            $this->addError($attribute, Yii::t('app', 'The borrowing date must be today or further.'));
+        }
     }
 
     /**
